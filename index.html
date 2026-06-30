@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShieldGuard - SecurePath Analyzer</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container" id="appFrame">
+        <header class="app-header">
+            <div class="brand">
+                <span class="material-symbols-outlined">shield</span>
+                <span>ShieldGuard</span>
+            </div>
+            
+            <nav class="bottom-nav" id="desktopNav">
+                <a href="#" class="nav-item active" data-target="view-analyzer">
+                    <div class="nav-icon-wrapper">
+                        <span class="material-symbols-outlined">password</span>
+                    </div>
+                    <span>Analyzer</span>
+                </a>
+                <a href="#" class="nav-item" data-target="view-vault">
+                    <div class="nav-icon-wrapper">
+                        <span class="material-symbols-outlined">lock</span>
+                    </div>
+                    <span>Vault</span>
+                </a>
+                <a href="#" class="nav-item" data-target="view-settings">
+                    <div class="nav-icon-wrapper">
+                        <span class="material-symbols-outlined">settings</span>
+                    </div>
+                    <span>Settings</span>
+                </a>
+            </nav>
+
+            <div class="header-actions">
+                <button class="header-icon-btn" id="themeToggle" title="Toggle Theme">
+                    <span class="material-symbols-outlined" id="themeIcon">dark_mode</span>
+                </button>
+                <button class="header-icon-btn" id="refreshBtn" title="Reset Content">
+                    <span class="material-symbols-outlined">refresh</span>
+                </button>
+            </div>
+        </header>
+
+        <div class="app-content app-view active-view" id="view-analyzer">
+            <div class="title-section">
+                <h1>SecurePath Analyzer</h1>
+                <p>Check and improve your password security</p>
+            </div>
+
+            <div class="analyzer-card">
+                <div class="input-group">
+                    <input type="password" id="passwordInput" placeholder="Enter password...">
+                    <div class="input-actions">
+                        <button id="toggleVisibility" type="button">
+                            <span class="material-symbols-outlined" id="eyeIcon">visibility</span>
+                        </button>
+                        <button type="button" id="copyBtn">
+                            <span class="material-symbols-outlined">content_copy</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="strength-meter">
+                    <div class="strength-header">
+                        <span>Strength Score</span>
+                        <span class="strength-label weak" id="strengthLabel">Weak</span>
+                    </div>
+                    <div class="meter-bars" data-score="0" id="meterBars">
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                    </div>
+                </div>
+
+                <div class="security-criteria">
+                    <div class="criteria-title">Security Criteria</div>
+                    <ul class="criteria-list">
+                        <li class="criteria-item" id="item-len">
+                            <span class="material-symbols-outlined icon-state">radio_button_unchecked</span> Minimum 8 characters
+                        </li>
+                        <li class="criteria-item" id="item-up">
+                            <span class="material-symbols-outlined icon-state">radio_button_unchecked</span> Uppercase letters (A-Z)
+                        </li>
+                        <li class="criteria-item" id="item-low">
+                            <span class="material-symbols-outlined icon-state">radio_button_unchecked</span> Lowercase letters (a-z)
+                        </li>
+                        <li class="criteria-item" id="item-num">
+                            <span class="material-symbols-outlined icon-state">radio_button_unchecked</span> Numbers (0-9)
+                        </li>
+                        <li class="criteria-item" id="item-spec">
+                            <span class="material-symbols-outlined icon-state">radio_button_unchecked</span> Special characters (!@#$%^&*)
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="meta-side-deck">
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div class="stat-label">Time to Crack</div>
+                        <div class="stat-value" id="valCrack">0s</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Entropy</div>
+                        <div class="stat-value" id="valEntropy">0 bits</div>
+                    </div>
+                </div>
+
+                <div class="tip-box">
+                    <span class="material-symbols-outlined">lightbulb</span>
+                    <div class="tip-content">
+                        <div class="tip-title">Security Tip</div>
+                        <div class="tip-text">Avoid using common words, sequential numbers, or personal info like birthdays.</div>
+                    </div>
+                </div>
+                <button class="btn-primary" id="generateBtn">
+                    <span class="material-symbols-outlined">vpn_key</span> Generate Secure Password
+                </button>
+            </div>
+        </div>
+
+        <div class="app-content app-view" id="view-vault">
+            <div class="title-section" style="display: flex; justify-content: space-between; align-items: center; gap: 15px; margin-bottom: 24px;">
+                <div>
+                    <h1>Encrypted Vault</h1>
+                    <p>Locally stored credentials and keys</p>
+                </div>
+                <button id="clearVaultBtn" style="background: rgba(255, 75, 75, 0.1); border: 1px solid #ff4b4b; color: #ff4b4b; padding: 8px 14px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; font-weight: 500; font-family: inherit; transition: all 0.2s ease;">
+                    <span class="material-symbols-outlined" style="font-size:18px;">delete</span>
+                    Clear Vault
+                </button>
+            </div>
+            
+            <div class="analyzer-card" style="overflow-x: auto;">
+                <table class="vault-table">
+                    <thead>
+                        <tr>
+                            <th>Account Name</th>
+                            <th>Identity Key</th>
+                            <th>Security Code</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="vaultItemsContainer">
+                        <tr>
+                            <td><strong>Google Accounts</strong></td>
+                            <td style="color: var(--text-muted)">user@gmail.com</td>
+                            <td style="font-family: monospace; letter-spacing: 2px;">••••••••••••</td>
+                            <td><button class="vault-action-btn" onclick="navigator.clipboard.writeText('SecureP@ss2026!')"><span class="material-symbols-outlined" style="font-size:18px;">content_copy</span></button></td>
+                        </tr>
+                        <tr>
+                            <td><strong>GitHub Node</strong></td>
+                            <td style="color: var(--text-muted)">git_dev_rhiszm</td>
+                            <td style="font-family: monospace; letter-spacing: 2px;">••••••••••••</td>
+                            <td><button class="vault-action-btn" onclick="navigator.clipboard.writeText('g1thub_K3y!99')"><span class="material-symbols-outlined" style="font-size:18px;">content_copy</span></button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div> <div class="app-content app-view" id="view-settings">
+            <div class="title-section">
+                <h1>Dashboard Configuration</h1>
+                <p>Modify local rules and application preferences</p>
+            </div>
+            <div class="analyzer-card">
+                <div class="setting-row">
+                    <div>
+                        <div style="font-weight:600;">Enforce High Entropy Mode</div>
+                        <div style="font-size:0.8rem; color:var(--text-muted);">Strict system security checking restrictions</div>
+                    </div>
+                    <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                </div>
+                <div class="setting-row">
+                    <div>
+                        <div style="font-weight:600;">Clipboard Auto-Flush</div>
+                        <div style="font-size:0.8rem; color:var(--text-muted);">Clear copied memory strings after 60 seconds</div>
+                    </div>
+                    <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                </div>
+                <div class="setting-row">
+                    <div>
+                        <div style="font-weight:600;">Biometric Lock Integration</div>
+                        <div style="font-size:0.8rem; color:var(--text-muted);">Request verification step before decryption</div>
+                    </div>
+                    <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+   <script>
+    const passwordInput = document.getElementById('passwordInput');
+    const strengthLabel = document.getElementById('strengthLabel');
+    const meterBars = document.getElementById('meterBars');
+    const valCrack = document.getElementById('valCrack');
+    const valEntropy = document.getElementById('valEntropy');
+    const toggleVisibility = document.getElementById('toggleVisibility');
+    const eyeIcon = document.getElementById('eyeIcon');
+    const generateBtn = document.getElementById('generateBtn');
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+    const copyBtn = document.getElementById('copyBtn');
+    const refreshBtn = document.getElementById('refreshBtn');
+    const navItems = document.querySelectorAll('.nav-item');
+    const views = document.querySelectorAll('.app-view');
+    const vaultItemsContainer = document.getElementById('vaultItemsContainer');
+
+    let defaultsCleared = false;
+    let lastSavedPassword = ""; 
+    function clearDefaultVaultItems() {
+        if (!defaultsCleared) {
+            vaultItemsContainer.innerHTML = '';
+            defaultsCleared = true;
+        }
+    }
+    function savePasswordToVault(passwordValue, isGenerated = false) {
+        if (!passwordValue || passwordValue === lastSavedPassword) return;
+        
+        clearDefaultVaultItems();
+        lastSavedPassword = passwordValue; 
+        const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        const entryName = isGenerated ? `Generated Node (${timestamp})` : `User Entry (${timestamp})`;
+        const identityKey = `local_user_${Math.random().toString(36).substring(2, 7)}`;
+
+        const newRow = document.createElement('tr');
+        newRow.innerHTML = `
+            <td><strong>${entryName}</strong></td>
+            <td style="color: var(--text-muted)">${identityKey}</td>
+            <td style="font-family: monospace; letter-spacing: 2px;">••••••••••••</td>
+            <td>
+                <button class="vault-action-btn">
+                    <span class="material-symbols-outlined" style="font-size:18px;">content_copy</span>
+                </button>
+            </td>
+        `;
+
+        newRow.querySelector('button').addEventListener('click', () => {
+            navigator.clipboard.writeText(passwordValue);
+            alert('Password copied from Vault!');
+        });
+
+        vaultItemsContainer.appendChild(newRow);
+    }
+    const clearVaultBtn = document.getElementById('clearVaultBtn');
+
+        if (clearVaultBtn) {
+            clearVaultBtn.addEventListener('click', () => {
+                if (confirm("Are you sure you want to clear your saved vault history?")) {
+                    vaultItemsContainer.innerHTML = ''; 
+                    lastSavedPassword = "";             
+                    defaultsCleared = true;             
+                    alert("Vault cleared!");
+                }
+            });
+}
+    navItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+            const currentActiveView = document.querySelector('.app-view.active-view');
+            if (currentActiveView && currentActiveView.id === 'view-analyzer' && passwordInput.value) {
+                savePasswordToVault(passwordInput.value, false);
+            }
+            
+            navItems.forEach(nav => nav.classList.remove('active'));
+            item.classList.add('active');
+            const targetId = item.getAttribute('data-target');
+            if (targetId) {
+                views.forEach(view => view.classList.remove('active-view'));
+                const targetView = document.getElementById(targetId);
+                if (targetView) {
+                    targetView.classList.add('active-view');
+                }
+            }
+        });
+    });
+    generateBtn.addEventListener('click', () => {
+        const uppercase = "ABCDEFGHJKLMNOPQRSTUVWXYZ";
+        const lowercase = "abcdefghijkmnopqrstuvwxyz";
+        const numbers = "0123456789";
+        const specials = "!@#$%^&*()_+-=";
+        const all = uppercase + lowercase + numbers + specials;
+        let password = "";
+        password += uppercase[Math.floor(Math.random() * uppercase.length)];
+        password += lowercase[Math.floor(Math.random() * lowercase.length)];
+        password += numbers[Math.floor(Math.random() * numbers.length)];
+        password += specials[Math.floor(Math.random() * specials.length)];
+        
+        for (let i = 0; i < 10; i++) {
+            password += all[Math.floor(Math.random() * all.length)];
+        }
+        
+        password = password.split('').sort(() => 0.5 - Math.random()).join('');
+        
+        passwordInput.value = password;
+        passwordInput.dispatchEvent(new Event('input'));
+        savePasswordToVault(password, true);
+    });
+
+    const critItems = {
+        len: document.getElementById('item-len'),
+        up: document.getElementById('item-up'),
+        low: document.getElementById('item-low'),
+        num: document.getElementById('item-num'),
+        spec: document.getElementById('item-spec')
+    };
+    themeToggle.addEventListener('click', () => {
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        if (isDark) {
+            document.documentElement.removeAttribute('data-theme');
+            themeIcon.textContent = 'dark_mode';
+        } else {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            themeIcon.textContent = 'light_mode';
+        }
+    });
+    passwordInput.addEventListener('input', (e) => {
+        const val = e.target.value;
+
+        if (val.length === 0) {
+            resetToWeak();
+            return;
+        }
+
+        const rules = {
+            len: val.length >= 8,
+            up: /[A-Z]/.test(val),
+            low: /[a-z]/.test(val),
+            num: /[0-9]/.test(val),
+            spec: /[!@#$%^&*(),.?":{}|<>\-_]/.test(val)
+        };
+
+        let poolSize = 0;
+        let passedCount = 0;
+
+        Object.keys(rules).forEach(key => {
+            const item = critItems[key];
+            const iconNode = item.querySelector('.icon-state');
+            
+            if (rules[key]) {
+                item.classList.add('valid');
+                iconNode.textContent = "check_circle";
+                passedCount++;
+                if (key === 'up') poolSize += 26;
+                if (key === 'low') poolSize += 26;
+                if (key === 'num') poolSize += 10;
+                if (key === 'spec') poolSize += 32;
+            } else {
+                item.classList.remove('valid');
+                iconNode.textContent = "radio_button_unchecked";
+            }
+        });
+        if (val.length > 0 && poolSize === 0) poolSize = 26; 
+        const entropy = Math.floor(val.length * Math.log2(poolSize));
+        valEntropy.textContent = `${entropy} bits`;
+        meterBars.setAttribute('data-score', passedCount);
+        if (entropy < 40 || passedCount <= 2) {
+            strengthLabel.textContent = "Weak";
+            strengthLabel.className = "strength-label weak";
+        } else if (entropy < 60 || passedCount <= 4) {
+            strengthLabel.textContent = "Medium";
+            strengthLabel.className = "strength-label medium";
+        } else {
+            strengthLabel.textContent = "Strong";
+            strengthLabel.className = "strength-label strong";
+        }
+        const combinations = Math.pow(poolSize, val.length);
+        const secondsToCrack = combinations / (10 * Math.pow(10, 9)); 
+        valCrack.textContent = formatTime(secondsToCrack);
+    });
+
+    function formatTime(seconds) {
+        if (seconds < 1) return "Instant";
+        if (seconds < 60) return `${Math.floor(seconds)}s`;
+        const minutes = seconds / 60;
+        if (minutes < 60) return `${Math.floor(minutes)} min`;
+        const hours = minutes / 60;
+        if (hours < 24) return `${Math.floor(hours)} hours`;
+        const days = hours / 24;
+        if (days < 30) return `${Math.floor(days)} days`;
+        const months = days / 30;
+        if (months < 12) return `${Math.floor(months)} months`;
+        const years = months / 12;
+        if (years < 1000) return `${Math.floor(years)} years`;
+        if (years < 1000000) return `${Math.floor(years / 1000)}k years`;
+        return "Centuries";
+    }
+
+    function resetToWeak() {
+        passwordInput.value = "";
+        meterBars.setAttribute('data-score', "0");
+        strengthLabel.textContent = "Weak";
+        strengthLabel.className = "strength-label weak";
+        valCrack.textContent = "0s";
+        valEntropy.textContent = "0 bits";
+        Object.keys(critItems).forEach(key => {
+            critItems[key].classList.remove('valid');
+            critItems[key].querySelector('.icon-state').textContent = "radio_button_unchecked";
+        });
+        lastSavedPassword = ""; 
+    }
+
+    refreshBtn.addEventListener('click', () => {
+        resetToWeak();
+    });
+
+    toggleVisibility.addEventListener('click', () => {
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            eyeIcon.textContent = 'visibility_off';
+        } else {
+            passwordInput.type = 'password';
+            eyeIcon.textContent = 'visibility';
+        }
+    });
+    copyBtn.addEventListener('click', () => {
+        if(passwordInput.value) {
+            navigator.clipboard.writeText(passwordInput.value);
+            alert('Password copied to clipboard!');
+            savePasswordToVault(passwordInput.value, false);
+        }
+    });
+
+    function handleNavResponsiveness() {
+        const desktopNav = document.getElementById('desktopNav');
+        if (window.innerWidth < 768) {
+            document.body.appendChild(desktopNav);
+            desktopNav.style.position = "fixed";
+        } else {
+            document.querySelector('.app-header').appendChild(desktopNav);
+            desktopNav.style.position = "static";
+        }
+    }
+    
+    window.addEventListener('resize', handleNavResponsiveness);
+    window.addEventListener('DOMContentLoaded', handleNavResponsiveness);
+</script>
+</body>
+</html>
