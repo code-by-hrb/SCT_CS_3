@@ -7,6 +7,7 @@ Ultra-secure, client-side credential analyzer & local vault. Evaluate password r
 To provide a 100% private, serverless hub for checking, generating, and logging secure passkeys locally. By calculating cryptographic strength metrics entirely within the browser client, ShieldGuard ensures your master credentials never touch a network or risk server-side exposure.
 
 🔥 Core Features
+
 ✅ Live Strength Analysis: Real-time validation of password complexity using visual meter tracking against strict multi-rule security criteria.
 
 ✅ Cryptographic Metrics: Instant mathematical calculations for total Shannon Entropy (bits) and estimated Time-to-Crack speeds.
