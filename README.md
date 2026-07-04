@@ -1,9 +1,13 @@
 🛡️ SCT_CS_3: ShieldGuard
+
 Ultra-secure, client-side credential analyzer & local vault. Evaluate password resilience using mathematical entropy formulas and secure your generated keys entirely in your browser.
+
 
 💼 SkillCraft Technology Internship Project | Cyber Security Task #3
 
+
 🎯 Main Goal
+
 To provide a 100% private, serverless hub for checking, generating, and logging secure passkeys locally. By calculating cryptographic strength metrics entirely within the browser client, ShieldGuard ensures your master credentials never touch a network or risk server-side exposure.
 
 🔥 Core Features
